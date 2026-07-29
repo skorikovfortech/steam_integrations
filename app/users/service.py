@@ -34,7 +34,11 @@ class UserService:
     async def get_user_by_email(self, data: GetByEmailSchema):
         return await self.repo.get_user_by_email(**data.model_dump())
 
+
+    async def delete_user(self, data: GetByEmailSchema):
+        return await self.repo.delete_users(**data.model_dump())
     
+
     @staticmethod
     def hash_password(password: str) -> str:
         hash_password = ph.hash(password=password)

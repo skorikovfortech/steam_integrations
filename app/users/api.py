@@ -25,3 +25,11 @@ async def get_user_by_email(
 ):
     user = await user_service.get_user_by_email(data=data)
     return user
+
+@user_router.delete("/", response_model=GetByEmailSchema)
+async def delete_user(
+    user_service: UserServiceDeps,
+    data: GetByEmailSchema,
+):
+    await user_service.delete_user(data=data)
+    return "user delete"
