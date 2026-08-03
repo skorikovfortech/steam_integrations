@@ -11,8 +11,10 @@ class UserRepo:
 
 
     async def create_user(self, email: str, password_hash: str, username: str | None = None):
-        stmt = insert(User).values(email=email, password_hash=password_hash, username=username)
-        return await self.session.execute(stmt)
+        stmt = insert(User).values(email=email, password_hash=password_hash, username=username).returning(User)
+        result = await self.session.execute(stmt)
+        user = result.scalar_one_or_none()
+        return user
     
     async def get_user_by_email(self, email: str) -> User | None:
         stmt = select(User).where(User.email == email)
@@ -22,5 +24,11 @@ class UserRepo:
     async def delete_users(self, email: str) -> str:
         stmt = delete(User).where(User.email==email)
         result = await self.session.execute(stmt)
-        return "successfully"
+        return result 
+
+    async def get_user_by_username(self, username: str) -> User | None:
+        stmt = select(User).where(User.username == username)
+        result = await self.session.execute(stmt)
+        user = result.scalar_one_or_none()
+        return user
     

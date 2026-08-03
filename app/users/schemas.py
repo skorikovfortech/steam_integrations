@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class UserCreate(BaseModel):
@@ -17,6 +17,11 @@ class UserReadSchema(BaseModel):
     is_active: bool
     is_admin: bool
 
-class UserCreateResponce(BaseModel):
+class UserCreateResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     email: EmailStr
+    username: str | None = None
+
+class GetByUsername(BaseModel):
     username: str
