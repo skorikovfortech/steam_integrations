@@ -1,20 +1,19 @@
-from fastapi import APIRouter, Depends, requests
-from app.core.db import AsyncSessionDeps
+from fastapi import APIRouter, Depends
 from app.users.service import UserServiceDeps
-from app.users.schemas import UserCreate, GetByEmailSchema, UserReadSchema, UserCreateResponce
+from app.users.schemas import UserCreate, GetByEmailSchema, UserReadSchema, UserCreateResponse
 
 user_router = APIRouter(
     prefix="/users",
     tags=["users"]
 )
 
-@user_router.post("/")
+@user_router.post("/", response_model=UserCreateResponse)
 async def create_user(
     user_service: UserServiceDeps,
     data: UserCreate
 ):
-    await user_service.create_user(data=data)
-    return UserCreateResponce
+    user = await user_service.create_user(data=data)
+    return user
 
 
 @user_router.get("/", response_model=UserReadSchema)
