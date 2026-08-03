@@ -34,6 +34,16 @@ class DbSettings(BaseSettings):
             path=self.name  
         )
     
+    @property
+    def get_test_async_url(self):
+        return PostgresDsn.build(
+            scheme=self.dialect,
+            username=self.user,
+            password=self.password,
+            host=self.host,
+            port=self.port,
+            path="test_steam_bd"
+        )
     
 
     

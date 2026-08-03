@@ -18,3 +18,9 @@ class UserRepo:
         stmt = select(User).where(User.email == email)
         result = await self.session.execute(stmt)
         return result.scalar_one_or_none()
+    
+    async def delete_users(self, email: str) -> str:
+        stmt = delete(User).where(User.email==email)
+        result = await self.session.execute(stmt)
+        return "successfully"
+    
