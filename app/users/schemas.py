@@ -17,3 +17,6 @@ class UserReadSchema(BaseModel):
     is_active: bool
     is_admin: bool
 
+class UserCreateResponce(BaseModel):
+    email: EmailStr
+    username: str
